@@ -63,4 +63,11 @@ final class UserDetailRootView: ViewBase<UserProfile, UserDetailAction> {
         changeRoleButton.isHidden = loggedInUser.role != .admin
         manageTripsButton.isHidden = loggedInUser.role != .admin
     }
+
+    override func loadView() {
+        disableAccountButton.layer.cornerRadius = 2
+        changeRoleButton.layer.cornerRadius = 2
+        manageTripsButton.layer.cornerRadius = 2
+    }
 }
+

@@ -17,5 +17,7 @@ struct Colors {
 
     static let accent = UIColor(red: 21/255, green: 101/255, blue: 192/255, alpha: 1)
 
+    static let darkBlue = UIColor(red: 16/255, green: 51/255, blue: 117/255, alpha: 1)
+
     static let faded = UIColor(red: 182/255, green: 182/255, blue: 186/255, alpha: 1)
 }

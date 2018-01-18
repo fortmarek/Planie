@@ -88,6 +88,7 @@ extension LoginRootView {
         }
 
         static func button(button: UIButton) {
+            button.layer.cornerRadius = 2 
             button.titleLabel?.font = Fonts.displayLight(size: 14)
         }
 
