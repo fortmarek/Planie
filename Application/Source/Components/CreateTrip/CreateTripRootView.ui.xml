@@ -40,4 +40,11 @@
         layout:below="begin offset(35)"
         layout:bottom="super offset(-30)"
         layout:height=":gt 60" />
+
+    <Label
+        field="placeholderLabel"
+        layout:left="comment.left"
+        layout:top="comment.top"
+        text="Comment"
+        />
 </Component>

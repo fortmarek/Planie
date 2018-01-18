@@ -18,7 +18,7 @@ enum CreateTripAction {
     case commentText(String)
 }
 
-final class CreateTripRootView: ViewBase<Trip, CreateTripAction>, UITextViewDelegate {
+final class CreateTripRootView: ViewBase<Trip, CreateTripAction> {
 
     override var actions: [Observable<CreateTripAction>] {
         return [
@@ -49,11 +49,10 @@ final class CreateTripRootView: ViewBase<Trip, CreateTripAction>, UITextViewDele
     private let beginDatePicker = UIDatePicker().styled(using: Styles.datePicker)
     private let endDatePicker = UIDatePicker().styled(using: Styles.datePicker)
 
-    private let placeholderLabel = UILabel()
+    let placeholderLabel = UILabel().styled(using: Styles.commentPlaceholder)
 
     init(mode: CreateTripControllerMode) {
         self.mode = mode
-
         super.init()
     }
 
@@ -70,10 +69,11 @@ final class CreateTripRootView: ViewBase<Trip, CreateTripAction>, UITextViewDele
         endDatePicker.minimumDate = componentState.begin
 
         // Only set comment text when it changed, otherwise it keeps putting cursor at the end of the textView.
-        if comment.text != componentState.comment && componentState.comment.isEmpty == false {
+        if comment.text != componentState.comment {
             comment.text = componentState.comment
-            //comment.text = UIColor.black.fadedOut(by: 62%)
         }
+
+        placeholderLabel.isHidden = comment.text.isNotEmpty
 
         renderKeyboardToolbars()
     }
@@ -140,7 +140,6 @@ final class CreateTripRootView: ViewBase<Trip, CreateTripAction>, UITextViewDele
         end.inputAccessoryView = endToolbar
 
         comment.text = L10n.Trip.comment
-        comment.delegate = self
         comment.accessibilityLabel = L10n.Trip.comment
     }
 
@@ -159,16 +158,6 @@ final class CreateTripRootView: ViewBase<Trip, CreateTripAction>, UITextViewDele
 
     func closeKeyboard() {
         endEditing(true)
-    }
-
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        guard comment.text == L10n.Trip.comment else {return}
-        comment.text = ""
-    }
-
-    func textViewDidEndEditing(_ textView: UITextView) {
-        guard comment.text.isEmpty else {return}
-        comment.text = L10n.Trip.comment
     }
 }
 
@@ -192,7 +181,7 @@ extension CreateTripRootView {
         }
 
         static func commentPlaceholder(label: UILabel) {
-            label.textColor = UIColor.black.fadedOut(by: 62%)
+            label.textColor = Colors.faded
             label.font = Fonts.displayLight(size: 16)
         }
     }
