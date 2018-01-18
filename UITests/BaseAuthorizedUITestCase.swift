@@ -12,7 +12,7 @@ import Firebase
 
 class BaseAuthorizedUITestCase: BaseUITestCase {
     
-    static var user: FIRUser!
+    static var user: User!
 
     class var authorizeUser: String {
         return TestConstants.validAdmin
@@ -22,7 +22,7 @@ class BaseAuthorizedUITestCase: BaseUITestCase {
         super.setUp()
 
         waitUntil(timeout: TestConstants.asyncTimeout) { done in
-            FIRAuth.auth()!.signIn(withEmail: authorizeUser, password: TestConstants.password) {
+            Auth.auth()!.signIn(withEmail: authorizeUser, password: TestConstants.password) {
                 self.user = $0
                 expect($0).toNot(beNil())
                 expect($1).to(beNil())
@@ -32,7 +32,7 @@ class BaseAuthorizedUITestCase: BaseUITestCase {
     }
 
     override class func tearDown() {
-        try! FIRAuth.auth()!.signOut()
+        try! Auth.auth()!.signOut()
         super.tearDown()
     }
 

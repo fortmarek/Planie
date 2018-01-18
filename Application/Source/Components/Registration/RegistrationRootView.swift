@@ -7,8 +7,6 @@
 //
 
 import Reactant
-
-import Material
 import RxSwift
 
 enum RegistrationAction {
@@ -16,10 +14,10 @@ enum RegistrationAction {
 }
 
 final class RegistrationRootView: ViewBase<Void, RegistrationAction> {
-    
+
     override var actions: [Observable<RegistrationAction>] {
         return [
-            signUp.rx.tap.withLatestFrom(
+            signUpButton.rx.tap.withLatestFrom(
                 Observable.combineLatest(email.rx.text.replaceNilWith(""), password.rx.text.replaceNilWith(""), resultSelector: RegistrationAction.signUp)
             )
         ]
@@ -34,8 +32,7 @@ final class RegistrationRootView: ViewBase<Void, RegistrationAction> {
     let passwordBackground = UIVisualEffectView(effect: UIBlurEffect(style: .light))
         .styled(using: Styles.fieldBackground)
     let password = UITextField().styled(using: Styles.field, Styles.password)
-    let signUp = FlatButton(title: L10n.Auth.signUp.uppercased())
-        .styled(using: Styles.button, Styles.signUp)
+    let signUpButton = UIButton(title: L10n.Auth.signUp.uppercased()).styled(using: Styles.button, Styles.signUp)
 
     override func update() {
 
@@ -68,12 +65,13 @@ extension RegistrationRootView {
             textField.autocapitalizationType = .none
         }
 
-        static func button(button: Button) {
+        static func button(button: UIButton) {
             button.titleLabel?.font = Fonts.displayLight(size: 14)
         }
-        
-        static func signUp(button: Button) {
-            button.backgroundColor = Color.lightGreen.base
+
+        static func signUp(button: UIButton) {
+            button.backgroundColor = Colors.lightGreen
         }
     }
 }
+

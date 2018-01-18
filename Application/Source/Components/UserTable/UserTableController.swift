@@ -42,7 +42,7 @@ final class UserTableController: ControllerBase<[UserProfile], UserTableRootView
             navigationItem.leftBarButtonItem = logout
         }
 
-        rootView.componentState = .loading
+        rootView.tableView.componentState = .loading
 
         tabBarItem = UITabBarItem(title: L10n.User.List.tabTitle,
                                   image: UIImage(asset: Asset.users),
@@ -60,19 +60,19 @@ final class UserTableController: ControllerBase<[UserProfile], UserTableRootView
             .subscribe(onNext: { [reactions] _ in
                 reactions.loggedOut?()
             })
-            .addDisposableTo(lifetimeDisposeBag)
+            .disposed(by: lifetimeDisposeBag)
 
         dependencies.userService.users()
             .map { [loggedInUser] in $0.filter { $0.id != loggedInUser.id } }
             .subscribe(onNext: setComponentState)
-            .addDisposableTo(lifetimeDisposeBag)
+            .disposed(by: lifetimeDisposeBag)
     }
 
     override func update() {
         navigationController?.navigationBar.apply(style: CommonStyles.blueNavigationbar)
 
         let users = componentState
-        rootView.componentState = users.isNotEmpty ? .items(users) : .empty(message: L10n.User.List.empty)
+        rootView.tableView.componentState = users.isNotEmpty ? .items(users) : .empty(message: L10n.User.List.empty)
     }
     
     override func act(on action: UserTableRootView.ActionType) {

@@ -7,8 +7,6 @@
 //
 
 import Reactant
-
-import Material
 import RxSwift
 
 enum LoginAction {
@@ -35,8 +33,8 @@ final class LoginRootView: ViewBase<Void, LoginAction> {
     internal let passwordBackground = UIVisualEffectView(effect: UIBlurEffect(style: .light))
         .styled(using: Styles.fieldBackground)
     internal let password = UITextField().styled(using: Styles.field, Styles.password)
-    internal let logIn = FlatButton(title: L10n.Auth.login.uppercased()).styled(using: Styles.button, Styles.signIn)
-    internal let signUp = FlatButton(title: L10n.Auth.signUp.uppercased())
+    internal let logIn = UIButton(title: L10n.Auth.login.uppercased()).styled(using: Styles.button, Styles.signIn)
+    internal let signUp = UIButton(title: L10n.Auth.signUp.uppercased())
         .styled(using: Styles.button, Styles.newAccount)
 
     override func update() {
@@ -89,16 +87,16 @@ extension LoginRootView {
             textField.autocapitalizationType = .none
         }
 
-        static func button(button: Button) {
+        static func button(button: UIButton) {
             button.titleLabel?.font = Fonts.displayLight(size: 14)
         }
 
-        static func signIn(button: Button) {
-            button.backgroundColor = Color.lightGreen.base
+        static func signIn(button: UIButton) {
+            button.backgroundColor = Colors.lightGreen
         }
 
-        static func newAccount(button: Button) {
-            button.backgroundColor = Color.blue.base
+        static func newAccount(button: UIButton) {
+            button.backgroundColor = Colors.blue
         }
     }
 }

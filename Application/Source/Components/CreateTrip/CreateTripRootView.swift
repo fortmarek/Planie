@@ -8,7 +8,6 @@
 
 import Reactant
 import RxSwift
-import Material
 
 import IQKeyboardManagerSwift
 
@@ -19,7 +18,7 @@ enum CreateTripAction {
     case commentText(String)
 }
 
-final class CreateTripRootView: ViewBase<Trip, CreateTripAction> {
+final class CreateTripRootView: ViewBase<Trip, CreateTripAction>, UITextFieldDelegate {
 
     override var actions: [Observable<CreateTripAction>] {
         return [
@@ -34,18 +33,18 @@ final class CreateTripRootView: ViewBase<Trip, CreateTripAction> {
 
     private let mode: CreateTripControllerMode
 
-    let destination = Material.TextField().styled(using: Styles.textField)
+    let destination = UITextField().styled(using: Styles.textField)
     let destinationButtonOverlay = UIButton()
 
     private let beginOverrideSubject = PublishSubject<Date>()
-    let begin = Material.TextField().styled(using: Styles.textField)
+    let begin = UITextField().styled(using: Styles.textField)
     private let beginToolbar = IQToolbar()
 
     private let endOverrideSubject = PublishSubject<Date>()
-    let end = Material.TextField().styled(using: Styles.textField)
+    let end = UITextField().styled(using: Styles.textField)
     private let endToolbar = IQToolbar()
 
-    let comment = TextView().styled(using: Styles.comment)
+    var comment = UITextView().styled(using: Styles.comment)
 
     private let beginDatePicker = UIDatePicker().styled(using: Styles.datePicker)
     private let endDatePicker = UIDatePicker().styled(using: Styles.datePicker)
@@ -55,6 +54,7 @@ final class CreateTripRootView: ViewBase<Trip, CreateTripAction> {
 
         super.init()
     }
+
 
     override func update() {
         destination.text = componentState.destination?.fullAddress
@@ -76,7 +76,7 @@ final class CreateTripRootView: ViewBase<Trip, CreateTripAction> {
     }
 
     private func renderKeyboardToolbars() {
-        let doneButton = IQBarButtonItem(title: L10n.Common.done, style: .done) { [weak self] _ in
+        let doneButton = IQBarButtonItem(title: L10n.Common.done, style: .done) { [weak self] in
             self?.endEditing(true)
         }
         let flexibleSpace = IQBarButtonItem(barButtonSystemItem: .flexibleSpace)
@@ -92,7 +92,7 @@ final class CreateTripRootView: ViewBase<Trip, CreateTripAction> {
                 .subscribe(onNext: { [beginOverrideSubject] in
                     beginOverrideSubject.onNext($0)
                 })
-                .addDisposableTo(stateDisposeBag)
+                .disposed(by: stateDisposeBag)
         }
 
         if let beginDate = componentState.begin,
@@ -108,7 +108,7 @@ final class CreateTripRootView: ViewBase<Trip, CreateTripAction> {
                 .subscribe(onNext: { [endOverrideSubject] in
                     endOverrideSubject.onNext($0)
                 })
-                .addDisposableTo(stateDisposeBag)
+                .disposed(by: stateDisposeBag)
         } else {
             let todayButton = IQBarButtonItem(title: L10n.Trip.Create.today, style: .plain)
             endToolbar.items = [todayButton, flexibleSpace, doneButton]
@@ -118,7 +118,7 @@ final class CreateTripRootView: ViewBase<Trip, CreateTripAction> {
                 .subscribe(onNext: { [endOverrideSubject] in
                     endOverrideSubject.onNext($0)
                 })
-                .addDisposableTo(stateDisposeBag)
+                .disposed(by: stateDisposeBag)
         }
     }
 
@@ -136,8 +136,9 @@ final class CreateTripRootView: ViewBase<Trip, CreateTripAction> {
         end.inputView = endDatePicker
         end.inputAccessoryView = endToolbar
 
-        comment.placeholderLabel = UILabel(text: L10n.Trip.comment).styled(using: Styles.commentPlaceholder)
-        comment.titleLabel = UILabel().styled(using: ReactantStyles.commentTitle)
+        //FIX:
+//        comment.placeholderLabel.styled(using: Styles.commentPlaceholder)
+//        comment.placeholderLabel.text = L10n.Trip.comment
         comment.accessibilityLabel = L10n.Trip.comment
     }
 
@@ -157,13 +158,22 @@ final class CreateTripRootView: ViewBase<Trip, CreateTripAction> {
     func closeKeyboard() {
         endEditing(true)
     }
+
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.textColor = Colors.accent
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        <#code#>
+    }
 }
 
 extension CreateTripRootView {
     fileprivate struct Styles {
-        static func textField(textField: Material.TextField) {
-            textField.dividerActiveColor = Colors.accent
-            textField.placeholderActiveColor = Colors.accent
+        static func textField(textField: UITextField) {
+            //FIX:
+//            textField.dividerActiveColor = Colors.accent
+//            textField.placeholderActiveColor = Colors.accent
             textField.font = Fonts.displayLight(size: 16)
         }
 
@@ -171,14 +181,16 @@ extension CreateTripRootView {
             datePicker.datePickerMode = .date
         }
 
-        static func comment(textView: TextView) {
+        static func comment(textView: UITextView) {
             textView.backgroundColor = .clear
             textView.font = Fonts.displayLight(size: 16)
             textView.textContainer.lineFragmentPadding = 0
             textView.textContainerInset = UIEdgeInsets.zero
             textView.isScrollEnabled = false
             textView.textColor = UIColor.black.fadedOut(by: 62%)
-            textView.titleLabelActiveColor = Colors.accent
+
+            //FIX:
+            //textView. = Colors.accent
         }
 
         static func commentPlaceholder(label: UILabel) {

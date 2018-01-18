@@ -6,11 +6,14 @@
 //  Copyright © 2017 Brightify. All rights reserved.
 //
 
-
-import Material
+import UIKit 
 
 struct Colors {
     static let background = UIColor(hex: "#dddddd")
 
-    static let accent = Color.blue.darken3 // color("#103375")
+    static let lightGreen = UIColor(red: 139/255, green: 195/255, blue: 74/255, alpha: 1)
+
+    static let blue = UIColor(red: 33/255, green: 150/255, blue: 243/255, alpha: 1)
+
+    static let accent = UIColor(red: 21/255, green: 101/255, blue: 192/255, alpha: 1)
 }

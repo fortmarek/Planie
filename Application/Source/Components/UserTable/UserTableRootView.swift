@@ -8,22 +8,25 @@
 
 
 import Reactant
+import RxSwift
 
-final class UserTableRootView: PlainTableView<UserCell> {
-    
-    init() {
-        super.init(
-            cellFactory: UserCell.init,
-            style: UITableViewStyle(rawValue: Int(UserCell.height))!,
-            reloadable: false
-        )
+final class UserTableRootView: ViewBase<[UserProfile], PlainTableViewAction<UserCell>>  {
 
-        height = UserCell.height
-        footerView = UIView()
-        tableView.separatorColor = Colors.background
+    let tableView: PlainTableView<UserCell> = PlainTableView(cellFactory: UserCell.init, reloadable: false)
+
+    override var actions: [Observable<PlainTableViewAction<UserCell>>] {
+        return tableView.actions
     }
 
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        return .none
+    override func afterInit() {
+        tableView.rowHeight = UserCell.height
+        tableView.separatorStyle = .none
+        tableView.footerView = UIView()
+        tableView.tableView.separatorColor = Colors.background
     }
+
+    override func update() {
+        tableView.componentState = .items(componentState)
+    }
+
 }

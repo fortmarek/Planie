@@ -7,19 +7,23 @@
 //
 
 import Reactant
+import RxSwift 
 
-final class CitySelectionRootView: PlainTableView<CityCell> {
 
-    init() {
-        super.init(
-            cellFactory: CityCell.init,
-            reloadable: false
-        )
-        estimatedRowHeight = CityCell.height
-        footerView = UIView()
+
+final class CitySelectionRootView: ViewBase<[City], PlainTableViewAction<CityCell>> {
+
+    let tableView: PlainTableView<CityCell> = PlainTableView(cellFactory: CityCell.init, reloadable: true)
+
+    override var actions: [Observable<PlainTableViewAction<CityCell>>] {
+        return tableView.actions
+
     }
 
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override func afterInit() {
+        tableView.estimatedRowHeight = CityCell.height
+        tableView.footerView = UIView()
     }
+
+
 }

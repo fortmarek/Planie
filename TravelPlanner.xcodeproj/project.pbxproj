@@ -129,6 +129,8 @@
 		5CE576104EF6D559FB07D4F9 /* Pods_TravelPlanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3DAAF4B5634F8118E54E748 /* Pods_TravelPlanner.framework */; };
 		6F2178F753816A5477098F87 /* Pods_TravelPlannerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 103EBAFF6B0DAD2BB6E6238E /* Pods_TravelPlannerUITests.framework */; };
 		A7B9CEDDAD211614A696410B /* Pods_TravelPlannerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4194FDDFF93170A0018A595A /* Pods_TravelPlannerTests.framework */; };
+		F8A8F4BE2010E64000F043EB /* CitySelectionRootView.ui.xml in Resources */ = {isa = PBXBuildFile; fileRef = F8A8F4BD2010E64000F043EB /* CitySelectionRootView.ui.xml */; };
+		F8A8F4C02010E6A600F043EB /* TripTableRootView.ui.xml in Resources */ = {isa = PBXBuildFile; fileRef = F8A8F4BF2010E6A600F043EB /* TripTableRootView.ui.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -277,6 +279,8 @@
 		9D1274B2BADC683BAD8E59C0 /* Pods-TravelPlannerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelPlannerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TravelPlannerTests/Pods-TravelPlannerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D3DAAF4B5634F8118E54E748 /* Pods_TravelPlanner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TravelPlanner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D63D575D81095362FB933F2C /* Pods-TravelPlannerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelPlannerUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TravelPlannerUITests/Pods-TravelPlannerUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		F8A8F4BD2010E64000F043EB /* CitySelectionRootView.ui.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CitySelectionRootView.ui.xml; sourceTree = "<group>"; };
+		F8A8F4BF2010E6A600F043EB /* TripTableRootView.ui.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = TripTableRootView.ui.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -385,6 +389,7 @@
 				183457421EB1605200C972A4 /* CityCell.ui.xml */,
 				183457431EB1605200C972A4 /* CitySelectionController.swift */,
 				183457441EB1605200C972A4 /* CitySelectionRootView.swift */,
+				F8A8F4BD2010E64000F043EB /* CitySelectionRootView.ui.xml */,
 				18D676821D7B8199008A923D /* SearchBox.swift */,
 				189440061F869D43004D54D2 /* SearchBox.ui.xml */,
 			);
@@ -448,6 +453,7 @@
 				1834575B1EB1605200C972A4 /* TripCell.ui.xml */,
 				1834575C1EB1605200C972A4 /* TripTableController.swift */,
 				1834575D1EB1605200C972A4 /* TripTableRootView.swift */,
+				F8A8F4BF2010E6A600F043EB /* TripTableRootView.ui.xml */,
 			);
 			path = TripTable;
 			sourceTree = "<group>";
@@ -779,6 +785,7 @@
 				TargetAttributes = {
 					1870A4731D75BD5600B3E7EB = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = QH95ER52SG;
 						LastSwiftMigration = 0820;
 					};
 					1870A4871D75BD5700B3E7EB = {
@@ -819,6 +826,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				183457771EB1605200C972A4 /* RegistrationRootView.ui.xml in Resources */,
+				F8A8F4C02010E6A600F043EB /* TripTableRootView.ui.xml in Resources */,
 				1834577C1EB1605200C972A4 /* TripCell.ui.xml in Resources */,
 				1811B11E1D807B3E0027922B /* SF-UI-Text-Semibold.otf in Resources */,
 				1811B10B1D807B3E0027922B /* SF-UI-Display-Black.otf in Resources */,
@@ -837,6 +845,7 @@
 				18650BAA1D84084100B1B2A0 /* GoogleService-Info.plist in Resources */,
 				1811B11A1D807B3E0027922B /* SF-UI-Text-Medium.otf in Resources */,
 				189440071F869D43004D54D2 /* SearchBox.ui.xml in Resources */,
+				F8A8F4BE2010E64000F043EB /* CitySelectionRootView.ui.xml in Resources */,
 				1811B1141D807B3E0027922B /* SF-UI-Text-Bold.otf in Resources */,
 				1811B10C1D807B3E0027922B /* SF-UI-Display-Bold.otf in Resources */,
 				1811B1161D807B3E0027922B /* SF-UI-Text-Heavy.otf in Resources */,
@@ -975,7 +984,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$PODS_ROOT/SwiftGen/bin/swiftgen\" images -t dot-syntax-swift3 --output \"$SRCROOT/Application/Generated/Assets.generated.swift\" \"$SRCROOT/Application/Resources/Assets.xcassets\"\n\"$PODS_ROOT/SwiftGen/bin/swiftgen\" strings -t dot-syntax-swift3 --output \"$SRCROOT/Application/Generated/Localizations.generated.swift\" \"$SRCROOT/Application/Resources/Base.lproj/Localizable.strings\"\n";
+			shellScript = "\"$PODS_ROOT/SwiftGen/bin/swiftgen\"\n";
 		};
 		1D21CCD9793F701584CB4343 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1021,7 +1030,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		280FEB82EC3BCB870A779DE2 /* [CP] Check Pods Manifest.lock */ = {
@@ -1039,7 +1048,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		3E0BB27DBAAA70E90D64C956 /* [CP] Check Pods Manifest.lock */ = {
@@ -1057,7 +1066,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		4F3D2E279FE3F5581015BE01 /* [CP] Embed Pods Frameworks */ = {
@@ -1411,7 +1420,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1453,7 +1462,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1466,11 +1475,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = QH95ER52SG;
 				INFOPLIST_FILE = "$(SRCROOT)/Application/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = org.brightify.Planie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1482,10 +1493,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = QH95ER52SG;
 				INFOPLIST_FILE = "$(SRCROOT)/Application/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.brightify.Planie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -1499,6 +1512,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.brightify.TravelPlannerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TravelPlanner.app/TravelPlanner";
 			};
 			name = Debug;
@@ -1512,6 +1526,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.brightify.TravelPlannerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TravelPlanner.app/TravelPlanner";
 			};
 			name = Release;
@@ -1524,6 +1539,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.brightify.TravelPlannerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = TravelPlanner;
 			};
 			name = Debug;
@@ -1536,6 +1552,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.brightify.TravelPlannerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = TravelPlanner;
 			};
 			name = Release;

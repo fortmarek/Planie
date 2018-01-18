@@ -20,9 +20,9 @@ final class LoginService {
     }
 
     func login(email: String, password: String) -> Observable<Result<UserProfile, FirebaseLoginError>> {
-        return Observable<Result<FIRUser, FirebaseLoginError>>
+        return Observable<Result<User, FirebaseLoginError>>
             .create { observer in
-                FIRAuth.auth()?.signIn(withEmail: email, password: password) { user, error in
+                Auth.auth().signIn(withEmail: email, password: password) { user, error in
                     if let user = user {
                         observer.onLast(.success(user))
                     } else if let error = error {
@@ -33,7 +33,7 @@ final class LoginService {
                 }
                 return Disposables.create()
             }
-            .flatMapLatest { [userService] login -> Observable<Result<FIRUser, FirebaseLoginError>> in
+            .flatMapLatest { [userService] login -> Observable<Result<User, FirebaseLoginError>> in
                 switch login {
                 case .success(let user):
                     return userService.userDisabled(userId: user.uid)
@@ -55,8 +55,10 @@ final class LoginService {
 
     func logout() -> Observable<Result<Void, FirebaseCommonError>> {
         do {
-            try FIRAuth.auth()?.signOut()
-            return .just(.success())
+            try Auth.auth().signOut()
+            //return .just(Result.success(FirebaseCommonError.appNotAuthorized))
+            let firebaseError = FirebaseCommonError(error: NSError())
+            return .just(.failure(firebaseError))
         } catch {
             let firebaseError = FirebaseCommonError(error: error as NSError)
             return .just(.failure(firebaseError))
@@ -65,7 +67,7 @@ final class LoginService {
 
     func register(email: String, password: String) -> Observable<Result<UserProfile, FirebaseSignupError>> {
         return Observable<Result<UserProfile, FirebaseSignupError>>.create { observer in
-            FIRAuth.auth()?.createUser(withEmail: email, password: password) { user, error in
+            Auth.auth().createUser(withEmail: email, password: password) { user, error in
                 if let user = user {
                     let profile = UserProfile(id: user.uid, email: user.email)
                     observer.onLast(.success(profile))
@@ -79,7 +81,7 @@ final class LoginService {
             }.flatMapLatest { registration -> Observable<Result<UserProfile, FirebaseSignupError>> in
                 switch registration {
                 case .success(let profile):
-                    return FIRDatabase.database().reference()
+                    return Database.database().reference()
                         .child("users")
                         .store(profile, forKey: profile.id)
                         .mapValue { $0.object }

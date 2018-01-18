@@ -1,0 +1,9 @@
+strings:
+  paths: Application/Resources/Base.lproj/Localizable.strings
+  templateName: structured-swift3
+  output: Application/Generated/Localizations.generated.swift
+xcassets:
+  paths:
+   - Application/Resources/Assets.xcassets
+  templateName: swift3
+  output: Application/Generated/Assets.generated.swift

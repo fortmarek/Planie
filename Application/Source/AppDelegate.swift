@@ -23,7 +23,7 @@ class AppDelegate: SuperDelegate, ApplicationLaunched {
     func setupApplication() {
         Fabric.with([Crashlytics.self, Answers.self])
         disableAnimationsIfRequested()
-        FIRApp.configure()
+        FirebaseApp.configure()
         IQKeyboardManager.sharedManager().enable = true
 
 //        Configuration.global.set(value: L10n.Common.loading, for: Properties.)

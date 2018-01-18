@@ -53,7 +53,7 @@ final class TripTableController: ControllerBase<Void, TripTableRootView>, UITabl
 
         navigationItem.rightBarButtonItems = [createTripButton, printButton]
 
-        rootView.componentState = .loading
+        rootView.tableView.componentState = .loading
 
         tabBarItem = UITabBarItem(title: L10n.Trip.List.tabTitle,
                                   image: UIImage(asset: Asset.trips),
@@ -74,7 +74,7 @@ final class TripTableController: ControllerBase<Void, TripTableRootView>, UITabl
         definesPresentationContext = true
         extendedLayoutIncludesOpaqueBars = true
 
-        rootView.headerView = searchBarWrapper
+        rootView.tableView.headerView = searchBarWrapper
 
         createTripButton.accessibilityLabel = L10n.Trip.List.create
         printButton.accessibilityLabel = L10n.Trip.List.print
@@ -92,13 +92,13 @@ final class TripTableController: ControllerBase<Void, TripTableRootView>, UITabl
                 guard (query?.isNotEmpty)! else { return scopedTrips }
                 return SearchUtils.searchTrips(trips: scopedTrips, query: query!)
             }
-            .shareReplay(1)
-
+            .share(replay: 1)
+    
         trips.map { $0.isNotEmpty ? .items($0) : .empty(message: L10n.Trip.List.empty) }
-            .subscribe(onNext: rootView.setComponentState)
-            .addDisposableTo(lifetimeDisposeBag)
+            .subscribe(onNext: rootView.tableView.setComponentState)
+            .disposed(by: lifetimeDisposeBag)
 
-        trips.map { $0.isNotEmpty }.subscribe(printButton.rx.isEnabled).addDisposableTo(lifetimeDisposeBag)
+        trips.map { $0.isNotEmpty }.subscribe(printButton.rx.isEnabled).disposed(by: lifetimeDisposeBag)
 
         printButton.rx.tap
             .withLatestFrom(trips)
@@ -109,7 +109,7 @@ final class TripTableController: ControllerBase<Void, TripTableRootView>, UITabl
             .map(PrintUtils.printableHtml)
             .flatMapLatest(reactions.printItinerary)
             .subscribe()
-            .addDisposableTo(lifetimeDisposeBag)
+            .disposed(by: lifetimeDisposeBag)
 
         logout.rx.tap
             .flatMapLatest { [reactions] in
@@ -121,20 +121,22 @@ final class TripTableController: ControllerBase<Void, TripTableRootView>, UITabl
             .subscribe(onNext: { [reactions] _ in
                 reactions.loggedOut?()
             })
-            .addDisposableTo(lifetimeDisposeBag)
+            .disposed(by: lifetimeDisposeBag)
 
         createTripButton.rx.tap
             .flatMapLatest(reactions.createTrip)
             .subscribe()
-            .addDisposableTo(lifetimeDisposeBag)
+            .disposed(by: lifetimeDisposeBag)
 
-//        rootView.tableView.rx.setDelegate(self).addDisposableTo(lifetimeDisposeBag)
+//        rootView.tableView.rx.setDelegate(self).disposed(by: lifetimeDisposeBag)
     }
 
     override func update() {
         navigationController?.navigationBar.apply(style: CommonStyles.blueNavigationbar)
     }
 
+
+    
     override func act(on action: TripTableRootView.ActionType) {
         switch action {
         case .selected(let trip):
@@ -149,9 +151,9 @@ final class TripTableController: ControllerBase<Void, TripTableRootView>, UITabl
 
         // Ensure minimum contentSize, otherwise search header will be jumping up and down
         // Minimum contentSize is the space between navBar and tabBar + height of searchBar (so it can be hidden)
-        rootView.tableView.minimumContentSize.height = view.bounds.height - topLayoutGuide.length -
-            bottomLayoutGuide.length + searchBarWrapper.searchBarBottom - rootView.tableView.contentInset.top -
-            rootView.tableView.contentInset.bottom
+        rootView.tableView.tableView.minimumContentSize.height = view.bounds.height - topLayoutGuide.length -
+            bottomLayoutGuide.length + searchBarWrapper.searchBarBottom - rootView.tableView.tableView.contentInset.top -
+            rootView.tableView.tableView.contentInset.bottom
     }
 
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {

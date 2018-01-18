@@ -8,7 +8,6 @@
 
 
 import Reactant
-import Material
 import RxSwift
 
 enum UserDetailAction {
@@ -30,9 +29,9 @@ final class UserDetailRootView: ViewBase<UserProfile, UserDetailAction> {
     let email = UILabel()
     let role = UILabel()
     let disabled = UILabel()
-    let disableAccountButton = FlatButton()
-    let changeRoleButton = FlatButton(title: L10n.User.Detail.changeRole.uppercased())
-    let manageTripsButton = FlatButton(title: L10n.User.Detail.manageTrips.uppercased())
+    let disableAccountButton = UIButton()
+    let changeRoleButton = UIButton(title: L10n.User.Detail.changeRole.uppercased())
+    let manageTripsButton = UIButton(title: L10n.User.Detail.manageTrips.uppercased())
 
     private let loggedInUser: UserProfile
 

@@ -7,8 +7,6 @@
 //
 
 import Reactant
-
-import Material
 import RxSwift
 
 final class InitialRootView: ViewBase<Void, Void>{

@@ -29,20 +29,20 @@ class RegistrationControllerTest: BaseUITestCase {
         UIElements.Registration.signUp.tap()
         expect(UIElements.Trips.logout.exists).toEventually(beTrue())
         
-        FIRAuth.auth()?.signIn(withEmail: TestConstants.newUser, password: TestConstants.password, completion: nil)
+        Auth.auth().signIn(withEmail: TestConstants.newUser, password: TestConstants.password, completion: nil)
 
-        expect(FIRAuth.auth()?.currentUser).toEventuallyNot(beNil())
+        expect(Auth.auth().currentUser).toEventuallyNot(beNil())
 
-        let uid = FIRAuth.auth()!.currentUser!.uid
+        let uid = Auth.auth()!.currentUser!.uid
         waitUntil(timeout: TestConstants.asyncTimeout) { done in
-            FIRDatabase.database().reference().child("users").child(uid).removeValue { _ in
+            Database.database().reference().child("users").child(uid).removeValue { _ in
                 done()
             }
         }
 
-        FIRAuth.auth()?.currentUser?.delete(completion: nil)
+        Auth.auth().currentUser?.delete(completion: nil)
 
-        expect(FIRAuth.auth()?.currentUser).toEventually(beNil())
+        expect(Auth.auth().currentUser).toEventually(beNil())
 
     }
 }

@@ -20,24 +20,24 @@ enum FirebaseCommonError: Error {
     case unknown
 
     init(error: NSError) {
-        let firebaseError = FIRAuthErrorCode(rawValue: error.code)
+        let firebaseError = AuthErrorCode(rawValue: error.code)
 
         switch firebaseError {
-        case .errorCodeNetworkError?:
+        case .some(AuthErrorCode.networkError):
             self = .networkError
-        case .errorCodeUserNotFound?:
+        case .some(AuthErrorCode.userNotFound):
             self = .userNotFound
-        case .errorCodeUserTokenExpired?:
+        case .some(AuthErrorCode.userTokenExpired):
             self = .userTokenExpired
-        case .errorCodeTooManyRequests?:
+        case .some(AuthErrorCode.tooManyRequests):
             self = .tooManyRequests
-        case .errorCodeInvalidAPIKey?:
+        case .some(AuthErrorCode.invalidAPIKey):
             self = .invalidAPIKey
-        case .errorCodeAppNotAuthorized?:
+        case .some(AuthErrorCode.appNotAuthorized):
             self = .appNotAuthorized
-        case .errorCodeKeychainError?:
+        case .some(AuthErrorCode.keychainError):
             self = .keychainError
-        case .errorCodeInternalError?:
+        case .some(AuthErrorCode.internalError):
             self = .internalError
         default:
             self = .unknown
@@ -52,14 +52,14 @@ enum FirebaseLoginError: Error {
     case wrongPassword
 
     init(error: NSError) {
-        let firebaseError = FIRAuthErrorCode(rawValue: error.code)
+        let firebaseError = AuthErrorCode(rawValue: error.code)
 
         switch firebaseError {
-        case .errorCodeOperationNotAllowed?:
+        case .some(AuthErrorCode.operationNotAllowed):
             self = .operationNotAllowed
-        case .errorCodeUserDisabled?:
+        case .some(AuthErrorCode.userDisabled):
             self = .userDisabled
-        case .errorCodeWrongPassword?:
+        case .some(AuthErrorCode.wrongPassword):
             self = .wrongPassword
         default:
             self = .common(FirebaseCommonError(error: error))
@@ -75,16 +75,16 @@ enum FirebaseSignupError: Error {
     case weakPassword(reason: String)
 
     init(error: NSError) {
-        let firebaseError = FIRAuthErrorCode(rawValue: error.code)
+        let firebaseError = AuthErrorCode(rawValue: error.code)
 
         switch firebaseError {
-        case .errorCodeInvalidEmail?:
+        case .some(AuthErrorCode.invalidEmail):
             self = .invalidEmail
-        case .errorCodeEmailAlreadyInUse?:
+        case .some(AuthErrorCode.emailAlreadyInUse):
             self = .emailAlreadyInUse
-        case .errorCodeOperationNotAllowed?:
+        case .some(AuthErrorCode.operationNotAllowed):
             self = .operationNotAllowed
-        case .errorCodeWeakPassword?:
+        case .some(AuthErrorCode.weakPassword):
             let reason = error.userInfo[NSLocalizedFailureReasonErrorKey] as? String ?? ""
             self = .weakPassword(reason: reason)
         default:

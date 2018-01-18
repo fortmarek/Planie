@@ -22,12 +22,12 @@ class BaseUITestCase: XCTestCase {
         Nimble.AsyncDefaults.Timeout = TestConstants.asyncTimeout
         Nimble.AsyncDefaults.PollInterval = TestConstants.asyncPollInterval
 
-        FIRApp.configure()
+        FirebaseApp.configure()
     }
 
     override class func tearDown() {
         waitUntil(timeout: TestConstants.asyncTimeout) { done in
-            FIRApp.defaultApp()?.delete { _ in done() }
+            FirebaseApp.defaultApp()?.delete { _ in done() }
         }
     }
 

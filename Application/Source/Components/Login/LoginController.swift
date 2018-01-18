@@ -47,11 +47,11 @@ final class LoginController: ControllerBase<Void, LoginRootView> {
                 IQKeyboardManager.sharedManager().resignFirstResponder()
                 let login = dependencies.credentialAuthProvider.login(email: email, password: password)
                     .trackActivity(in: loadingIndicator)
-                    .shareReplay(1)
+                    .share(replay: 1)
 
                 login.filterError()
                     .subscribe(onNext: reactions.loginSuccessful)
-                    .addDisposableTo(lifetimeDisposeBag)
+                    .disposed(by: lifetimeDisposeBag)
 
                 login.errorOnly()
                     .map { error in
@@ -67,7 +67,7 @@ final class LoginController: ControllerBase<Void, LoginRootView> {
                     .subscribe(onNext: {
                         _ = errorAlert(title: L10n.Auth.Error.loginTitle, subTitle: $0)
                     })
-                    .addDisposableTo(lifetimeDisposeBag)
+                    .disposed(by: lifetimeDisposeBag)
 
             case .failure(let error):
                 let errorMessage: String

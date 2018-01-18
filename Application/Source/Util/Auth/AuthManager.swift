@@ -40,7 +40,7 @@ final class AuthManager {
     }
 
     func logout() -> Observable<Result<Void, DeauthenticationError>> {
-        return (activeProvider?.deleteState() ?? Observable.just(.success())).do(onNext: { [weak self] in
+        return (activeProvider?.deleteState() ?? Observable.just(.success(()))).do(onNext: { [weak self] in
             if case .success = $0 {
                 self?.activeProvider?.deactivate()
                 self?.authStore.deauthorize()

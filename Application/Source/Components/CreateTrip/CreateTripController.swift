@@ -10,7 +10,6 @@ import Reactant
 import DataMapper
 import RxSwift
 import RxCocoa
-import Material
 
 enum CreateTripControllerMode {
     case create
@@ -50,7 +49,7 @@ final class CreateTripController: ScrollControllerBase<Trip, CreateTripRootView>
         let validatedTrip = saveTrip.rx.tap
             .withLatestFrom(observableState)
             .map(tripValidationRule.run)
-            .shareReplay(1)
+            .share(replay: 1)
 
         validatedTrip.errorOnly()
             .map { error -> String in
@@ -68,27 +67,27 @@ final class CreateTripController: ScrollControllerBase<Trip, CreateTripRootView>
             .subscribe(onNext: {
                 _ = errorAlert(title: L10n.Trip.Edit.Error.title, subTitle: $0)
             })
-            .addDisposableTo(lifetimeDisposeBag)
+            .disposed(by: lifetimeDisposeBag)
 
         let tripSave = validatedTrip
             .filterError()
             .flatMapLatest { [dependencies, profile] in
                 dependencies.tripService.saveTrip(trip: $0, profile: profile).trackActivity(in: loadingIndicator)
             }
-            .shareReplay(1)
+            .share(replay: 1)
 
         tripSave.errorOnly()
             .subscribe(onNext: { [mode] _ in
                 _ = errorAlert(title: mode == .create ? L10n.Trip.Create.Error.title : L10n.Trip.Edit.Error.title,
                                subTitle: L10n.Common.tryAgainLater)
             })
-            .addDisposableTo(lifetimeDisposeBag)
+            .disposed(by: lifetimeDisposeBag)
 
         tripSave.filterError()
             .subscribe(onNext: { [reactions] in
                 reactions.tripSaved($0)
             })
-            .addDisposableTo(lifetimeDisposeBag)
+            .disposed(by: lifetimeDisposeBag)
     }
 
     override func update() {
@@ -104,7 +103,7 @@ final class CreateTripController: ScrollControllerBase<Trip, CreateTripRootView>
                 .subscribe(onNext: { [weak self] in
                     self?.componentState.destination = $0
                 })
-                .addDisposableTo(lifetimeDisposeBag)
+                .disposed(by: lifetimeDisposeBag)
         case .beginDate(let begin):
             componentState.begin = begin.startOf(component: .day)
         case .endDate(let end):

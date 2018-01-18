@@ -37,7 +37,7 @@ extension String: FirebaseValue {
 }
 
 enum FirebaseFetchError: Error {
-    case deserializeError(FIRDataSnapshot)
+    case deserializeError(DataSnapshot)
     case readDenied(Error)
 }
 
@@ -48,7 +48,7 @@ enum FirebaseStoreError: Error {
 
 import FirebaseDatabase
 
-extension FIRServerValue {
+extension ServerValue {
     static var swiftTimestamp: [String: String] {
         let timestamp = self.timestamp()
         let key = timestamp.keys.first?.description ?? ".sv"
@@ -60,7 +60,7 @@ extension FIRServerValue {
 private let jsonSerializer = JsonSerializer()
 private let objectMapper = ObjectMapper()
 
-extension FIRDatabaseQuery {
+extension DatabaseQuery {
     func exists() -> Observable<Bool> {
         return Observable.create { observer in
             let handle = self.observe(.value,
@@ -76,7 +76,7 @@ extension FIRDatabaseQuery {
         }
     }
 
-    func fetch<T: FirebaseValue>(_: T.Type = T.self, event: FIRDataEventType = .value)
+    func fetch<T: FirebaseValue>(_: T.Type = T.self, event: DataEventType = .value)
         -> Observable<Result<T, FirebaseFetchError>> {
             return Observable.create { observer in
                 let handle = self.observe(event, with: { snapshot in
@@ -96,7 +96,7 @@ extension FIRDatabaseQuery {
             }
     }
 
-    func fetch<T: Deserializable>(_: T.Type = T.self, event: FIRDataEventType = .value)
+    func fetch<T: Deserializable>(_: T.Type = T.self, event: DataEventType = .value)
         -> Observable<Result<T, FirebaseFetchError>> {
             return Observable.create { observer in
                 let handle = self.observe(event, with: { snapshot in
@@ -121,7 +121,7 @@ extension FIRDatabaseQuery {
             let handle = self.observe(.value, with: { snapshot in
                 let array = snapshot.children.flatMap { child -> T? in
                     guard let
-                        childSnapshot = child as? FIRDataSnapshot,
+                        childSnapshot = child as? DataSnapshot,
                         let childDictionary = childSnapshot.value as? [String: AnyObject] else { return nil }
                     return objectMapper.deserialize(jsonSerializer.typedDeserialize(childDictionary))
                 }
@@ -136,7 +136,7 @@ extension FIRDatabaseQuery {
     }
 }
 
-extension FIRDatabaseReference {
+extension DatabaseReference {
     func store<T: Serializable>(_ objects: [T]) -> Observable<[Result<T, FirebaseStoreError>]> where T: FirebaseEntity {
         return Observable.from(objects.map(store)).concat().reduce([]) { accumulator, result in
             accumulator + [result]
@@ -196,7 +196,8 @@ extension FIRDatabaseReference {
     func delete<T: Serializable>(_ object: T) -> Observable<Result<Void, FirebaseStoreError>> where T: FirebaseEntity {
         return Observable.create { observer in
             guard let key = object.id else {
-                observer.onLast(.success())
+                //FIX:
+                observer.onLast(.success(()))
                 return Disposables.create()
             }
 
@@ -204,7 +205,7 @@ extension FIRDatabaseReference {
                 if let error = error {
                     observer.onLast(.failure(.writeDenied(error)))
                 } else {
-                    observer.onLast(.success())
+                    observer.onLast(.success(()))
                 }
             }
             return Disposables.create()

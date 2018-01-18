@@ -10,21 +10,18 @@
 import Reactant
 import RxSwift
 
-final class TripTableRootView: PlainTableView<TripCell> {
-    
-    override var edgesForExtendedLayout: UIRectEdge {
-        return []
+final class TripTableRootView: ViewBase<[Trip], PlainTableViewAction<TripCell>> {
+
+    let tableView: PlainTableView<TripCell> = PlainTableView(cellFactory: TripCell.init, reloadable: false)
+
+    override var actions: [Observable<PlainTableViewAction<TripCell>>] {
+        return tableView.actions 
     }
 
-    init() {
-        super.init(
-            cellFactory: TripCell.init,
-            reloadable: false
-        )
-
+    override func afterInit() {
         tableView.rowHeight = TripCell.height
         tableView.separatorStyle = .none
-        tableView.tableFooterView = UIView() //this line makes searchbarwrapper disappear
-        tableView.contentInset.bottom = 8
+        tableView.tableView.tableFooterView = UIView() //this line makes searchbarwrapper disappear
+        tableView.tableView.contentInset.bottom = 8
     }
 }

@@ -25,13 +25,13 @@ let successIndicator = AnyObserver<String> { event in
     switch event {
     case .next(let value):
         let hud = JGProgressHUD(style: .extraLight)
-        hud?.indicatorView = JGProgressHUDSuccessIndicatorView()
-        hud?.textLabel?.text = value
-        hud?.backgroundColor = UIColor(white: 0, alpha: 70%)
-        hud?.show(in: UIApplication.shared.keyWindow)
-        hud?.dismiss(afterDelay: 1)
-        hud?.tapOutsideBlock = { hud in
-            hud?.dismiss()
+        hud.indicatorView = JGProgressHUDSuccessIndicatorView()
+        hud.textLabel.text = value
+        hud.backgroundColor = UIColor(white: 0, alpha: 70%)
+        hud.show(in: UIApplication.shared.keyWindow ?? UIWindow())
+        hud.dismiss(afterDelay: 1)
+        hud.tapOutsideBlock = { hud in
+            hud.dismiss()
         }
     default:
         return
@@ -47,13 +47,13 @@ let errorIndicator = AnyObserver<String> { event in
     switch event {
     case .next(let value):
         let hud = JGProgressHUD(style: .extraLight)
-        hud?.indicatorView = JGProgressHUDErrorIndicatorView()
-        hud?.textLabel?.text = value
-        hud?.backgroundColor = UIColor(white: 0, alpha: 70%)
-        hud?.show(in: UIApplication.shared.keyWindow)
-        hud?.dismiss(afterDelay: 5)
-        hud?.tapOutsideBlock = { hud in
-            hud?.dismiss()
+        hud.indicatorView = JGProgressHUDErrorIndicatorView()
+        hud.textLabel.text = value
+        hud.backgroundColor = UIColor(white: 0, alpha: 70%)
+        hud.show(in: UIApplication.shared.keyWindow ?? UIWindow())
+        hud.dismiss(afterDelay: 5)
+        hud.tapOutsideBlock = { hud in
+            hud.dismiss()
         }
     default:
         return
@@ -65,13 +65,13 @@ let loadingIndicator: ActivityIndicator<String> = {
     let hud: JGProgressHUD = JGProgressHUD(style: .extraLight)
     hud.backgroundColor = UIColor.black.fadedOut(by: 30%)
     activityIndicator.asDriver().drive(onNext: { loading, message in
-        hud.textLabel?.text = message
+        hud.textLabel.text = message
         if loading && !hud.isVisible {
-            hud.show(in: UIApplication.shared.keyWindow)
+            hud.show(in: UIApplication.shared.keyWindow ?? UIWindow())
         } else if !loading && hud.isVisible {
             hud.dismiss()
         }
-        }).addDisposableTo(activityIndicator.disposeBag)
+        }).disposed(by: activityIndicator.disposeBag)
     
     return activityIndicator
 }()

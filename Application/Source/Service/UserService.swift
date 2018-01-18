@@ -15,7 +15,7 @@ import Result
 final class UserService {
 
     func users() -> Observable<[UserProfile]> {
-        let userList: Observable<[UserProfile]> = FIRDatabase.database().reference()
+        let userList: Observable<[UserProfile]> = Database.database().reference()
             .child("users")
             .fetchArray()
             .recover([])
@@ -38,7 +38,7 @@ final class UserService {
     }
 
     func userRole(userId: String) -> Observable<Role> {
-        let ref = FIRDatabase.database().reference()
+        let ref = Database.database().reference()
 
         return Observable.combineLatest(
             ref.child("moderators").child(userId).exists(),
@@ -48,14 +48,14 @@ final class UserService {
     }
 
     func userDisabled(userId: String) -> Observable<Bool> {
-        return FIRDatabase.database().reference()
+        return Database.database().reference()
             .child("disabledUsers")
             .child(userId)
             .exists()
     }
 
     func userProfile(userId: String) -> Observable<Result<UserProfile, FirebaseFetchError>> {
-        let user = FIRDatabase.database().reference()
+        let user = Database.database().reference()
             .child("users")
             .child(userId)
             .fetch(UserProfile.self)
@@ -71,7 +71,7 @@ final class UserService {
     }
 
     func setAccountDisabled(user: UserProfile, disabled: Bool) -> Observable<Bool> {
-        let path = FIRDatabase.database().reference().child("disabledUsers").child(user.id)
+        let path = Database.database().reference().child("disabledUsers").child(user.id)
 
         return Observable.create { observer in
             if disabled {
@@ -91,12 +91,12 @@ final class UserService {
         guard user.role != role else { return .just(false) }
 
         return Observable.create { observer in
-            let ref = FIRDatabase.database().reference()
+            let ref = Database.database().reference()
 
-            let removalCompletion: (Error?, FIRDatabaseReference) -> Void = { error, _ in
+            let removalCompletion: (Error?, DatabaseReference) -> Void = { error, _ in
                 observer.onLast(error == nil)
             }
-            let addCompletion: (Error?, FIRDatabaseReference) -> Void = { error, _ in
+            let addCompletion: (Error?, DatabaseReference) -> Void = { error, _ in
                 guard error == nil else {
                     observer.onLast(false)
                     return
