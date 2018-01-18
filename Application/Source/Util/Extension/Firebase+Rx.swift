@@ -196,7 +196,6 @@ extension DatabaseReference {
     func delete<T: Serializable>(_ object: T) -> Observable<Result<Void, FirebaseStoreError>> where T: FirebaseEntity {
         return Observable.create { observer in
             guard let key = object.id else {
-                //FIX:
                 observer.onLast(.success(()))
                 return Disposables.create()
             }
