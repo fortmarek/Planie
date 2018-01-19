@@ -44,9 +44,9 @@ extension Trip {
             .flatMap { $0 }
             .joined(separator: " - ")
         let countdown: String
-        if let begin = begin, Date().isBefore(date: begin, granularity: .day) {
-            let naturalString = begin.colloquial(to: Date())
-            countdown = " (\(L10n.Trip.List.countdown((naturalString ?? "")!)))"
+        if let begin = begin, Date().isBefore(date: begin, granularity: .day),
+            let naturalString = begin.colloquial(to: Date()) {
+            countdown = " (\(L10n.Trip.List.countdown((naturalString))))"
         } else {
             countdown = ""
         }

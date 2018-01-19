@@ -11,19 +11,20 @@ import RxSwift
 
 
 
-final class CitySelectionRootView: ViewBase<[City], PlainTableViewAction<CityCell>> {
+final class CitySelectionRootView: ViewBase<CollectionViewState<City>, PlainTableViewAction<CityCell>> {
 
-    let tableView: PlainTableView<CityCell> = PlainTableView(cellFactory: CityCell.init, reloadable: true)
+    let tableView: PlainTableView<CityCell> = PlainTableView()
 
     override var actions: [Observable<PlainTableViewAction<CityCell>>] {
         return tableView.actions
+    }
 
+    override func update() {
+        tableView.componentState = componentState
     }
 
     override func afterInit() {
         tableView.estimatedRowHeight = CityCell.height
         tableView.footerView = UIView()
     }
-
-
 }

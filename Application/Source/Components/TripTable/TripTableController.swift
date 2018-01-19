@@ -53,7 +53,7 @@ final class TripTableController: ControllerBase<Void, TripTableRootView>, UITabl
 
         navigationItem.rightBarButtonItems = [createTripButton, printButton]
 
-        rootView.tableView.componentState = .loading
+        rootView.componentState = .loading
 
         tabBarItem = UITabBarItem(title: L10n.Trip.List.tabTitle,
                                   image: UIImage(asset: Asset.trips),
@@ -93,9 +93,9 @@ final class TripTableController: ControllerBase<Void, TripTableRootView>, UITabl
                 return SearchUtils.searchTrips(trips: scopedTrips, query: query!)
             }
             .share(replay: 1)
-    
+
         trips.map { $0.isNotEmpty ? .items($0) : .empty(message: L10n.Trip.List.empty) }
-            .subscribe(onNext: rootView.tableView.setComponentState)
+            .subscribe(onNext: rootView.setComponentState)
             .disposed(by: lifetimeDisposeBag)
 
         trips.map { $0.isNotEmpty }.subscribe(printButton.rx.isEnabled).disposed(by: lifetimeDisposeBag)
@@ -128,7 +128,7 @@ final class TripTableController: ControllerBase<Void, TripTableRootView>, UITabl
             .subscribe()
             .disposed(by: lifetimeDisposeBag)
 
-//        rootView.tableView.rx.setDelegate(self).disposed(by: lifetimeDisposeBag)
+//        rootView.rx.setDelegate(self).disposed(by: lifetimeDisposeBag)
     }
 
     override func update() {

@@ -44,7 +44,7 @@ final class CreateTripRootView: ViewBase<Trip, CreateTripAction> {
     let end = UITextField().styled(using: Styles.textField)
     private let endToolbar = IQToolbar()
 
-    var comment = UITextView().styled(using: Styles.comment)
+    let comment = UITextView().styled(using: Styles.comment)
 
     private let beginDatePicker = UIDatePicker().styled(using: Styles.datePicker)
     private let endDatePicker = UIDatePicker().styled(using: Styles.datePicker)
@@ -55,7 +55,6 @@ final class CreateTripRootView: ViewBase<Trip, CreateTripAction> {
         self.mode = mode
         super.init()
     }
-
 
     override func update() {
         destination.text = componentState.destination?.fullAddress
@@ -177,7 +176,6 @@ extension CreateTripRootView {
             textView.textContainer.lineFragmentPadding = 0
             textView.textContainerInset = UIEdgeInsets.zero
             textView.isScrollEnabled = false
-            textView.textColor = Colors.faded
         }
 
         static func commentPlaceholder(label: UILabel) {

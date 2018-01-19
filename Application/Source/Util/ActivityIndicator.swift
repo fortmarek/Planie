@@ -28,7 +28,8 @@ let successIndicator = AnyObserver<String> { event in
         hud.indicatorView = JGProgressHUDSuccessIndicatorView()
         hud.textLabel.text = value
         hud.backgroundColor = UIColor(white: 0, alpha: 70%)
-        hud.show(in: UIApplication.shared.keyWindow ?? UIWindow())
+        guard let keyWindow = UIApplication.shared.keyWindow else {return}
+        hud.show(in: keyWindow)
         hud.dismiss(afterDelay: 1)
         hud.tapOutsideBlock = { hud in
             hud.dismiss()
@@ -50,7 +51,8 @@ let errorIndicator = AnyObserver<String> { event in
         hud.indicatorView = JGProgressHUDErrorIndicatorView()
         hud.textLabel.text = value
         hud.backgroundColor = UIColor(white: 0, alpha: 70%)
-        hud.show(in: UIApplication.shared.keyWindow ?? UIWindow())
+        guard let keyWindow = UIApplication.shared.keyWindow else {return}
+        hud.show(in: keyWindow)
         hud.dismiss(afterDelay: 5)
         hud.tapOutsideBlock = { hud in
             hud.dismiss()
@@ -67,7 +69,8 @@ let loadingIndicator: ActivityIndicator<String> = {
     activityIndicator.asDriver().drive(onNext: { loading, message in
         hud.textLabel.text = message
         if loading && !hud.isVisible {
-            hud.show(in: UIApplication.shared.keyWindow ?? UIWindow())
+            guard let keyWindow = UIApplication.shared.keyWindow else {return}
+            hud.show(in: keyWindow)
         } else if !loading && hud.isVisible {
             hud.dismiss()
         }

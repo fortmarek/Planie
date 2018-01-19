@@ -10,12 +10,16 @@
 import Reactant
 import RxSwift
 
-final class UserTableRootView: ViewBase<[UserProfile], PlainTableViewAction<UserCell>>  {
+final class UserTableRootView: ViewBase<CollectionViewState<UserProfile>, PlainTableViewAction<UserCell>>  {
 
-    let tableView: PlainTableView<UserCell> = PlainTableView(cellFactory: UserCell.init, reloadable: false)
+    let tableView: PlainTableView<UserCell> = PlainTableView(reloadable: false)
 
     override var actions: [Observable<PlainTableViewAction<UserCell>>] {
         return tableView.actions
+    }
+
+    override func update() {
+        tableView.componentState = componentState
     }
 
     override func afterInit() {
@@ -23,10 +27,6 @@ final class UserTableRootView: ViewBase<[UserProfile], PlainTableViewAction<User
         tableView.separatorStyle = .none
         tableView.footerView = UIView()
         tableView.tableView.separatorColor = Colors.background
-    }
-
-    override func update() {
-        tableView.componentState = .items(componentState)
     }
 
 }

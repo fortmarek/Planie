@@ -44,17 +44,17 @@ final class CitySelectionController: ControllerBase<String, CitySelectionRootVie
         searchBox.observableState
             .filter { $0.count < 2 }
             .subscribe(onNext: { [rootView] _ in
-                rootView.tableView.componentState = .empty(message: L10n.City.Search.minimumCharacters(2))
+                rootView.componentState = .empty(message: L10n.City.Search.minimumCharacters(2))
             })
             .disposed(by: lifetimeDisposeBag)
 
         searchBox.observableState
             .filter { $0.count >= 2 }
             .throttle(0.5, scheduler: MainScheduler.instance)
-            .do(onNext: { [rootView] _ in rootView.tableView.componentState = .loading })
+            .do(onNext: { [rootView] _ in rootView.componentState = .loading })
             .flatMapLatest { [dependencies] in dependencies.geoNamesService.searchCities(name: $0) }
-            .map { print($0); return $0.isNotEmpty ? .items($0) : .empty(message: L10n.City.Search.notFound) }
-            .subscribe(onNext: rootView.tableView.setComponentState)
+            .map { return $0.isNotEmpty ? .items($0) : .empty(message: L10n.City.Search.notFound) }
+            .subscribe(onNext: rootView.setComponentState)
             .disposed(by: lifetimeDisposeBag)
     }
 
@@ -80,7 +80,6 @@ final class CitySelectionController: ControllerBase<String, CitySelectionRootVie
         IQKeyboardManager.sharedManager().resignFirstResponder()
     }
 
-    
     override func act(on action: PlainTableViewAction<CityCell>) {
         switch action {
         case .selected(let city):

@@ -8,11 +8,11 @@
     type="CitySelectionRootView"
     rootView="true">
 
-    <Container
+    <View
         field="tableView"
         backgroundColor="white"
         layout:edges="super" >
-    </Container>
+    </View>
 
 </Component>
 

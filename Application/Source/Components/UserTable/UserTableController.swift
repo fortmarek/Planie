@@ -42,7 +42,7 @@ final class UserTableController: ControllerBase<[UserProfile], UserTableRootView
             navigationItem.leftBarButtonItem = logout
         }
 
-        rootView.tableView.componentState = .loading
+        rootView.componentState = .loading
 
         tabBarItem = UITabBarItem(title: L10n.User.List.tabTitle,
                                   image: UIImage(asset: Asset.users),
@@ -72,7 +72,7 @@ final class UserTableController: ControllerBase<[UserProfile], UserTableRootView
         navigationController?.navigationBar.apply(style: CommonStyles.blueNavigationbar)
 
         let users = componentState
-        rootView.tableView.componentState = users.isNotEmpty ? .items(users) : .empty(message: L10n.User.List.empty)
+        rootView.componentState = users.isNotEmpty ? .items(users) : .empty(message: L10n.User.List.empty)
     }
     
     override func act(on action: UserTableRootView.ActionType) {

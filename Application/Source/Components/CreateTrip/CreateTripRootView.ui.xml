@@ -43,8 +43,8 @@
 
     <Label
         field="placeholderLabel"
-        layout:left="comment.left"
-        layout:top="comment.top"
+        layout:leading="comment"
+        layout:top="comment"
         text="Comment"
         />
 </Component>
