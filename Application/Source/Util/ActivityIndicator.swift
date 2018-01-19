@@ -24,11 +24,11 @@ func successAlert(title: String, subTitle: String) -> Observable<Void> {
 let successIndicator = AnyObserver<String> { event in
     switch event {
     case .next(let value):
+        guard let keyWindow = UIApplication.shared.keyWindow else { return }
         let hud = JGProgressHUD(style: .extraLight)
         hud.indicatorView = JGProgressHUDSuccessIndicatorView()
         hud.textLabel.text = value
         hud.backgroundColor = UIColor(white: 0, alpha: 70%)
-        guard let keyWindow = UIApplication.shared.keyWindow else {return}
         hud.show(in: keyWindow)
         hud.dismiss(afterDelay: 1)
         hud.tapOutsideBlock = { hud in
@@ -47,11 +47,11 @@ func errorAlert(title: String, subTitle: String) -> Observable<Void> {
 let errorIndicator = AnyObserver<String> { event in
     switch event {
     case .next(let value):
+        guard let keyWindow = UIApplication.shared.keyWindow else { return }
         let hud = JGProgressHUD(style: .extraLight)
         hud.indicatorView = JGProgressHUDErrorIndicatorView()
         hud.textLabel.text = value
         hud.backgroundColor = UIColor(white: 0, alpha: 70%)
-        guard let keyWindow = UIApplication.shared.keyWindow else {return}
         hud.show(in: keyWindow)
         hud.dismiss(afterDelay: 5)
         hud.tapOutsideBlock = { hud in
@@ -63,13 +63,13 @@ let errorIndicator = AnyObserver<String> { event in
 }
 
 let loadingIndicator: ActivityIndicator<String> = {
+    guard let keyWindow = UIApplication.shared.keyWindow else { return }
     let activityIndicator = ActivityIndicator<String>()
     let hud: JGProgressHUD = JGProgressHUD(style: .extraLight)
     hud.backgroundColor = UIColor.black.fadedOut(by: 30%)
     activityIndicator.asDriver().drive(onNext: { loading, message in
         hud.textLabel.text = message
         if loading && !hud.isVisible {
-            guard let keyWindow = UIApplication.shared.keyWindow else {return}
             hud.show(in: keyWindow)
         } else if !loading && hud.isVisible {
             hud.dismiss()
