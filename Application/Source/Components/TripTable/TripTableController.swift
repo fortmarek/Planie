@@ -127,8 +127,6 @@ final class TripTableController: ControllerBase<Void, TripTableRootView>, UITabl
             .flatMapLatest(reactions.createTrip)
             .subscribe()
             .disposed(by: lifetimeDisposeBag)
-
-//        rootView.rx.setDelegate(self).disposed(by: lifetimeDisposeBag)
     }
 
     override func update() {
